@@ -51,7 +51,7 @@ const handleApiError = (functionName, error) => {
 export const fetchCustomers = async () => {
     try {
         // --- THIS LINE IS NOW FULLY CORRECTED ---
-        console.log("API: fetchCustomers: Attempting to send request to", `${API_BASE_URL}/api/add_customers`);
+        console.log("API: fetchCustomers: Attempting to send request to", `${API_BASE_URL}/add_customers`);
 
         const response = await api.get('/add_customers', {
             headers: getAuthHeaders(), // Assuming getAuthHeaders() is defined
@@ -90,9 +90,9 @@ export const fetchCustomers = async () => {
  */
 export const addCustomer = async (customerData) => {
     try {
-        // Change this line:
+        
         const response = await api.post('/add_customers', customerData, {
-        // FROM: const response = await api.post('/api/add_customers', customerData, {
+        
             headers: {
                 ...getAuthHeaders(),
                 'Content-Type': 'application/json',

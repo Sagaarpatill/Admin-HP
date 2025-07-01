@@ -46,10 +46,11 @@ const getFileTypeInfo = (mimetype) => {
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // allow only your frontend
-    credentials: true, // if you use cookies/sessions
+    origin: ["http://localhost:3000", "https://sagaarpatill.github.io"], // Allow both local and GitHub Pages
+    credentials: true,
   })
 );
+
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // URL-encoded body parser (MUST BE BEFORE routes that use req.body for URL-encoded data)
