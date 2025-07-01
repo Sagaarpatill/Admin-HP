@@ -1,0 +1,107 @@
+# version: '3.8'
+
+# services:
+#   # PostgreSQL Database Service
+#   db:
+#     image: postgres:17.5-alpine # Use a specific PostgreSQL version
+#     restart: always
+#     environment:
+#       POSTGRES_DB: ${POSTGRES_DB}
+#       POSTGRES_USER: ${POSTGRES_USER}
+#       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#     volumes:
+#       - db-data:/var/lib/postgresql/data # Persist data
+#       - ./sql_init:/docker-entrypoint-initdb.d
+#     ports:
+#       - "5432:5432" # Expose Postgres port (optional for internal communication)
+
+#   # Backend Service (Node.js/Express)
+#   backend:
+#     build: ./backend/ # Build from the backend Dockerfile
+
+#     restart: always
+#     ports:
+#       - "5000:5000" # Map host port 5000 to container port 5000
+#     environment:
+#       DATABASE_URL: postgres://postgres:Sagar@1@localhost:5432/houzingpartners # Connection string for your backend
+#       NODE_ENV: production # Set Node environment
+#     depends_on:
+#       - db # Ensure db starts before backend
+#     # If your backend needs time for the DB to be ready, uncomment this (requires 'wait-for-it' or similar)
+#     # entrypoint: ["/wait-for-it.sh", "db:5432", "--", "npm", "start"]
+
+#   # Frontend Service (React)
+#   frontend:
+#     build: . # Build from the frontend Dockerfile
+#     restart: always
+#     ports:
+#       - "80:80" # Map host port 80 to container port 80
+#     environment:
+#       # If your React app needs to know the backend URL, you can pass it here
+#       # For example: REACT_APP_API_URL: http://localhost:5000 (if accessing from browser)
+#       # Or for internal Docker network: REACT_APP_API_URL: http://backend:5000
+#       REACT_APP_API_URL: http://backend:5000 # Adjust as needed for your setup changes made by Anveshan on docker Setup
+#     depends_on:
+#       - backend # Ensure backend starts before frontend (if frontend relies on backend)
+
+# volumes:
+#   db-data: # Define the named volume for PostgreSQL data persistence
+
+
+
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:17.5-alpine # Use a specific PostgreSQL version
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - db-data:/var/lib/postgresql/data # Persist data
+      - ./sql_init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432" # Expose Postgres port (optional for internal communication)
+
+  # Backend Service (Node.js/Express)
+  backend:
+    build: ./backend/ # Build from the backend Dockerfile
+    restart: always
+    ports:
+      - "5000:5000" # Map host port 5000 to container port 5000
+    environment:
+      # Connection string for your backend - CRITICAL CHANGE: Use 'db' as the host
+      DATABASE_URL: postgres://postgres:Sagar@1@db:5432/houzingpartners
+      NODE_ENV: production # Set Node environment
+      # It's also good practice to define individual DB env vars for clarity and flexibility
+      DB_HOST: localhost
+      DB_USER: postgres
+      DB_PASSWORD: Sagar@1
+      DB_DATABASE: houzingpartners
+      DB_PORT: 5432
+      
+    depends_on:
+      - db # Ensure db starts before backend
+    # If your backend needs time for the DB to be ready, uncomment this (requires 'wait-for-it' or similar)
+    # entrypoint: ["/wait-for-it.sh", "db:5432", "--", "npm", "start"]
+    # command: ["/usr/local/bin/wait-for-it.sh", "db:5432", "--", "yarn", "start"]
+    entrypoint: ["sh", "-c", "./wait-for-it.sh db:5432 -- node server.js"]
+
+  # Frontend Service (React)
+  frontend:
+    build: . # Build from the frontend Dockerfile
+    restart: always
+    ports:
+      - "80:80" # Map host port 80 to container port 80
+    environment:
+      # Frontend now correctly points to 'backend' service for API calls
+      REACT_APP_API_URL: http://backend:5000
+    depends_on:
+      - backend # Ensure backend starts before frontend (if frontend relies on backend)
+
+volumes:
+  db-data: # Define the named volume for PostgreSQL data persistence
