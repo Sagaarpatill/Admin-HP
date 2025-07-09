@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Admin-HP/static/css/main.89899e66.css",
-    "main.js": "/Admin-HP/static/js/main.c2aa16a1.js",
+    "main.js": "/Admin-HP/static/js/main.5eb26af9.js",
     "static/js/496.d7ad57ea.chunk.js": "/Admin-HP/static/js/496.d7ad57ea.chunk.js",
     "static/media/remixicon.svg?t=1701175860820": "/Admin-HP/static/media/remixicon.d481f4ec6f533b68684e.svg",
     "static/media/materialdesignicons-webfont.eot": "/Admin-HP/static/media/materialdesignicons-webfont.d95c91e88cc28d3305af.eot",
@@ -390,11 +390,11 @@
     "static/media/de.svg": "/Admin-HP/static/media/de.8406691444ff98ee33d4f6cc86cb0372.svg",
     "static/media/bd.svg": "/Admin-HP/static/media/bd.a62e330d249ff3f5bd27978a78c3d1d6.svg",
     "main.89899e66.css.map": "/Admin-HP/static/css/main.89899e66.css.map",
-    "main.c2aa16a1.js.map": "/Admin-HP/static/js/main.c2aa16a1.js.map",
+    "main.5eb26af9.js.map": "/Admin-HP/static/js/main.5eb26af9.js.map",
     "496.d7ad57ea.chunk.js.map": "/Admin-HP/static/js/496.d7ad57ea.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.89899e66.css",
-    "static/js/main.c2aa16a1.js"
+    "static/js/main.5eb26af9.js"
   ]
 }
